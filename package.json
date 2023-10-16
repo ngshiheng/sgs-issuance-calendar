@@ -1,0 +1,13 @@
+{
+    "dependencies": {
+        "@types/google-apps-script": "^1.0.75"
+    },
+    "devDependencies": {
+        "prettier": "^3.0.3"
+    },
+    "prettier": {
+        "trailingComma": "all",
+        "tabWidth": 4,
+        "printWidth": 128
+    }
+}
