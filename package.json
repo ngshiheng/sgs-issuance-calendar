@@ -1,4 +1,7 @@
 {
+    "scripts": {
+        "test": "npx jest"
+    },
     "dependencies": {
         "@types/google-apps-script": "^1.0.75"
     },
