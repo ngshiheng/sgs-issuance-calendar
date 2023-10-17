@@ -19,7 +19,7 @@ export class MASApiService {
             .map((key) => `${key}=${params[key]}`)
             .join("&");
 
-        return encodeURI(`${this.baseUrl}/${endpoint}?${paramString}`);
+        return encodeURI(`${this.baseUrl}${endpoint}?${paramString}`);
     }
 
     private parseResponse(response: GoogleAppsScript.URL_Fetch.HTTPResponse): any {

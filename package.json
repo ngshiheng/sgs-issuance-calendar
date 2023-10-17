@@ -3,11 +3,22 @@
         "@types/google-apps-script": "^1.0.75"
     },
     "devDependencies": {
-        "prettier": "^3.0.3"
+        "@types/jest": "^29.5.5",
+        "jest": "^29.7.0",
+        "prettier": "^3.0.3",
+        "ts-jest": "^29.1.1",
+        "typescript": "^5.2.2"
     },
     "prettier": {
         "trailingComma": "all",
         "tabWidth": 4,
         "printWidth": 128
+    },
+    "jest": {
+        "preset": "ts-jest",
+        "testEnvironment": "node",
+        "transform": {
+            "^.+\\.ts$": "ts-jest"
+        }
     }
 }
