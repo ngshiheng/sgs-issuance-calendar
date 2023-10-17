@@ -30,7 +30,7 @@ export class MASApiService {
     getSGSBondsIssuanceCalendar(startDate: string, endDate: string, rows: number = 200, sort = "ann_date asc"): any {
         const endpoint = "/bondsandbills/m/issuancecalendar";
         const params = {
-            rows: 200,
+            rows,
             filters: `issue_type:("B" OR "I" OR "G") AND ann_date:[${startDate} TO ${endDate}]`,
             sort,
         };
