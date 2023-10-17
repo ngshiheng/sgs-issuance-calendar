@@ -54,4 +54,15 @@ export class MASApiService {
 
         return this.fetch(endpoint, params);
     }
+
+    getSavingsBondIssuanceCalendar(startDate: string, endDate: string, rows: number = 200, sort = "ann_date asc"): any {
+        const endpoint = "/bondsandbills/m/savingbondsissuancecalendar";
+        const params = {
+            rows,
+            filters: `issue_type:"S" AND ann_date:[${startDate} TO ${endDate}]`,
+            sort,
+        };
+
+        return this.fetch(endpoint, params);
+    }
 }

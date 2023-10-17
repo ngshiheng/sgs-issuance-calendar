@@ -51,4 +51,21 @@ describe("MASApiService", () => {
 
         expect(received).toBe(expected);
     });
+
+    it("should build a valid URL for Savings Bonds Issuance Calendar", () => {
+        const masApiService = new MASApiService();
+
+        // @ts-ignore
+        const received = masApiService.buildUrl("/bondsandbills/m/savingbondsissuancecalendar", {
+            rows: 200,
+            filters: `issue_type:"S" AND ann_date:[2023-01-01 TO 2023-12-31]`,
+            sort: "ann_date asc",
+        });
+
+        const expected = encodeURI(
+            'https://eservices.mas.gov.sg/statistics/api/v1/bondsandbills/m/savingbondsissuancecalendar?rows=200&filters=issue_type:"S" AND ann_date:[2023-01-01 TO 2023-12-31]&sort=ann_date asc',
+        );
+
+        expect(received).toBe(expected);
+    });
 });
