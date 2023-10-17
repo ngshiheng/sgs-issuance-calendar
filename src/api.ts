@@ -17,21 +17,35 @@ export class MASApiService {
         return UrlFetchApp.fetch(fullUrl, options);
     }
 
-    getSGSBondsIssuanceCalendar(startDate: string, endDate: string, maxRows: number): any {
+    getSGSBondsIssuanceCalendar(startDate: string, endDate: string, rows: number = 200, sort = "ann_date asc"): any {
         const endpoint = `${this.baseUrl}/bondsandbills/m/issuancecalendar`;
         const params = {
-            rows: maxRows,
+            rows: 200,
             filters: `issue_type:("B" OR "I" OR "G") AND ann_date:[${startDate} TO ${endDate}]`,
-            sort: "ann_date asc",
+            sort,
         };
 
         const response = this.fetch(endpoint, params);
         const responseBody = response.getContentText();
+        return JSON.parse(responseBody);
+    }
 
-        try {
-            return JSON.parse(responseBody);
-        } catch (error) {
-            throw new Error("Error parsing response: " + error);
-        }
+    getTBillsIssuanceCalendar(
+        startDate: string,
+        endDate: string,
+        auction_tenor: number,
+        rows: number = 200,
+        sort = "ann_date asc",
+    ): any {
+        const endpoint = `${this.baseUrl}/bondsandbills/m/issuancecalendar`;
+        const params = {
+            rows,
+            filters: `issue_type:"T" AND auction_tenor:"${auction_tenor}" AND ann_date:[${startDate} TO ${endDate}]`,
+            sort,
+        };
+
+        const response = this.fetch(endpoint, params);
+        const responseBody = response.getContentText();
+        return JSON.parse(responseBody);
     }
 }
