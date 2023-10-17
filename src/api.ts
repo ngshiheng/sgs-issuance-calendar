@@ -54,20 +54,4 @@ export class MASApiService {
 
         return this.fetch(endpoint, params);
     }
-
-    getCMTBsIssuanceCalendar(
-        startDate: string,
-        endDate: string,
-        rows: number = 200,
-        sort = "ann_date asc AND auction_tenor asc AND maturity_date asc",
-    ): any {
-        const endpoint = "/bondsandbills/m/cmtbissuancecalendar";
-        const params = {
-            rows,
-            filters: `ann_date:[${startDate} TO ${endDate}]`,
-            sort,
-        };
-
-        return this.fetch(endpoint, params);
-    }
 }
