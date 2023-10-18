@@ -11,7 +11,8 @@ export class MASApiService {
         };
 
         const response = UrlFetchApp.fetch(url, options);
-        return this.parseResponse(response);
+        const responseBody = response.getContentText();
+        return JSON.parse(responseBody);
     }
 
     private buildUrl(endpoint: string, params: Record<string, string | number>): string {
@@ -20,11 +21,6 @@ export class MASApiService {
             .join("&");
 
         return encodeURI(`${this.baseUrl}${endpoint}?${paramString}`);
-    }
-
-    private parseResponse(response: GoogleAppsScript.URL_Fetch.HTTPResponse): any {
-        const responseBody = response.getContentText();
-        return JSON.parse(responseBody);
     }
 
     getSGSBondsIssuanceCalendar(startDate: string, endDate: string, rows: number = 200, sort = "ann_date asc"): any {
