@@ -37,9 +37,11 @@ function createSixMonthTBillsIssuanceCalendar(api: MASApiService, startDate: str
 
     for (const record of records) {
         const issueCode = record.issue_code;
+        const announcementDate = new Date(record.ann_date);
         const auctionDate = new Date(record.auction_date);
 
-        const eventTitle = `T-bill Auction - ${issueCode}`;
+        const announcementTitle = `T-bill Announcement - ${issueCode}`;
+        const auctionTitle = `T-bill Auction - ${issueCode}`;
         const eventDescription =
             `Announcement Date: <b>${record.ann_date}</b>\n` +
             `Auction Date: <b>${record.auction_date}</b>\n` +
@@ -48,16 +50,27 @@ function createSixMonthTBillsIssuanceCalendar(api: MASApiService, startDate: str
             `Issue Code: <b>${record.issue_code}</b>\n` +
             `ISIN Code: <b>${record.isin_code}</b>`;
 
-        const existingEvents = calendar.getEventsForDay(auctionDate);
-        const eventExists = existingEvents.some((event) => event.getTitle() === eventTitle);
+        const existingEvents = calendar.getEvents(announcementDate, auctionDate);
 
-        if (eventExists) {
-            Logger.log(`Event "${eventTitle}" already exist`);
-            continue;
+        const announcementEventExists = existingEvents.some((event) => event.getTitle() === announcementTitle);
+        if (announcementEventExists) {
+            Logger.log(`Event "${announcementTitle}" already exist`);
+        } else {
+            Logger.log(`Creating "${announcementTitle}"`);
+            calendar
+                .createAllDayEvent(announcementTitle, announcementDate, { description: eventDescription })
+                .setGuestsCanSeeGuests(false);
         }
 
-        Logger.log(`Creating "${eventTitle}"`);
-        calendar.createAllDayEvent(eventTitle, auctionDate, { description: eventDescription }).setGuestsCanSeeGuests(false);
+        const auctionEventExists = existingEvents.some((event) => event.getTitle() === auctionTitle);
+        if (auctionEventExists) {
+            Logger.log(`Event "${auctionTitle}" already exist`);
+        } else {
+            Logger.log(`Creating "${auctionTitle}"`);
+            calendar
+                .createAllDayEvent(auctionTitle, auctionDate, { description: eventDescription })
+                .setGuestsCanSeeGuests(false);
+        }
     }
 }
 
