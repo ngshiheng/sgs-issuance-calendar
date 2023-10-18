@@ -4,7 +4,7 @@ interface BondRecord {
     isin_code: string;
     issue_type: string;
     raw_tenor: number;
-    auctionTenor: string;
+    auction_tenor: string;
     tenor_unit: string;
     curr: string;
     new_reopen: string;
