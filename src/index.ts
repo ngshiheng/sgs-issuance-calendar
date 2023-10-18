@@ -57,7 +57,7 @@ function createSixMonthTBillsIssuanceCalendar(api: MASApiService, startDate: str
         }
 
         Logger.log(`Creating "${eventTitle}"`);
-        calendar.createAllDayEvent(eventTitle, auctionDate, { description: eventDescription });
+        calendar.createAllDayEvent(eventTitle, auctionDate, { description: eventDescription }).setGuestsCanSeeGuests(false);
     }
 }
 
