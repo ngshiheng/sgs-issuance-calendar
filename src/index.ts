@@ -37,18 +37,18 @@ function createSixMonthTBillsIssuanceCalendar(api: MASApiService, startDate: str
 
     for (const record of records) {
         const issueCode = record.issue_code;
-        const issueDate = new Date(record.issue_date);
+        const auctionDate = new Date(record.auction_date);
 
-        const eventTitle = `T-bill Issuance - ${issueCode}`;
+        const eventTitle = `T-bill Auction - ${issueCode}`;
         const eventDescription =
-            `Announcement Date: ${record.ann_date}\n` +
-            `Auction Date: ${record.auction_date}\n` +
-            `Issue Date: ${record.issue_date}\n` +
-            `Maturity Date: ${record.maturity_date}\n` +
-            `Issue Code: ${record.issue_code}\n` +
-            `ISIN Code: ${record.isin_code}`;
+            `Announcement Date: <b>${record.ann_date}</b>\n` +
+            `Auction Date: <b>${record.auction_date}</b>\n` +
+            `Issue Date: <b>${record.issue_date}</b>\n` +
+            `Maturity Date: <b>${record.maturity_date}</b>\n` +
+            `Issue Code: <b>${record.issue_code}</b>\n` +
+            `ISIN Code: <b>${record.isin_code}</b>`;
 
-        const existingEvents = calendar.getEventsForDay(issueDate);
+        const existingEvents = calendar.getEventsForDay(auctionDate);
         const eventExists = existingEvents.some((event) => event.getTitle() === eventTitle);
 
         if (eventExists) {
@@ -57,7 +57,7 @@ function createSixMonthTBillsIssuanceCalendar(api: MASApiService, startDate: str
         }
 
         Logger.log(`Creating "${eventTitle}"`);
-        calendar.createAllDayEvent(eventTitle, issueDate, { description: eventDescription });
+        calendar.createAllDayEvent(eventTitle, auctionDate, { description: eventDescription });
     }
 }
 
