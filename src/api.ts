@@ -1,7 +1,34 @@
+interface BondRecord {
+    issue_code: string;
+    issue_no: string;
+    isin_code: string;
+    issue_type: string;
+    raw_tenor: number;
+    auctionTenor: string;
+    tenor_unit: string;
+    curr: string;
+    new_reopen: string;
+    ann_date: string;
+    auction_date: string;
+    issue_date: string;
+    flag: string;
+    maturity_date: string;
+    is_benchmark: string;
+    sgs_type: string;
+}
+
+interface MASApiResponse {
+    success: boolean;
+    result: {
+        total: number;
+        records: BondRecord[];
+    };
+}
+
 export class MASApiService {
     readonly baseUrl: string = "https://eservices.mas.gov.sg/statistics/api/v1";
 
-    private fetch(endpoint: string, params: Record<string, string | number>): any {
+    private fetch(endpoint: string, params: Record<string, string | number>): MASApiResponse {
         const url = this.buildUrl(endpoint, params);
         Logger.log(`Fetching from ${url}`);
 
@@ -23,7 +50,7 @@ export class MASApiService {
         return encodeURI(`${this.baseUrl}${endpoint}?${paramString}`);
     }
 
-    getSGSBondsIssuanceCalendar(startDate: string, endDate: string, rows: number = 200, sort = "ann_date asc"): any {
+    getSGSBondsIssuanceCalendar(startDate: string, endDate: string, rows: number = 200, sort = "ann_date asc"): MASApiResponse {
         const endpoint = "/bondsandbills/m/issuancecalendar";
         const params = {
             rows,
@@ -37,21 +64,26 @@ export class MASApiService {
     getTBillsIssuanceCalendar(
         startDate: string,
         endDate: string,
-        auction_tenor: number,
+        auctionTenor: number,
         rows: number = 200,
         sort = "ann_date asc",
-    ): any {
+    ): MASApiResponse {
         const endpoint = "/bondsandbills/m/issuancecalendar";
         const params = {
             rows,
-            filters: `issue_type:"T" AND auction_tenor:"${auction_tenor}" AND ann_date:[${startDate} TO ${endDate}]`,
+            filters: `issue_type:"T" AND auction_tenor:"${auctionTenor}" AND ann_date:[${startDate} TO ${endDate}]`,
             sort,
         };
 
         return this.fetch(endpoint, params);
     }
 
-    getSavingsBondIssuanceCalendar(startDate: string, endDate: string, rows: number = 200, sort = "ann_date asc"): any {
+    getSavingsBondIssuanceCalendar(
+        startDate: string,
+        endDate: string,
+        rows: number = 200,
+        sort = "ann_date asc",
+    ): MASApiResponse {
         const endpoint = "/bondsandbills/m/savingbondsissuancecalendar";
         const params = {
             rows,
