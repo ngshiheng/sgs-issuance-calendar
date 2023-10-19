@@ -32,7 +32,7 @@ export class MASApiService {
 
     private fetch(endpoint: string, params: Record<string, string | number>): MASApiResponse {
         const url = this.buildUrl(endpoint, params);
-        Logger.log(`Fetching from ${url}`);
+        Logger.log(`Fetching data from "${url}"`);
 
         const options: GoogleAppsScript.URL_Fetch.URLFetchRequestOptions = {
             method: "get",

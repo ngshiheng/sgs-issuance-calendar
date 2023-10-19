@@ -32,10 +32,10 @@ function createTBillsIssuanceCalendar(api: MASApiService, startDate: string, end
     let calendarName: string;
 
     switch (auctionTenor) {
-        case 1:
+        case 0.5:
             calendarName = "6-Month T-bill";
             break;
-        case 0.5:
+        case 1:
             calendarName = "1-Year T-bill";
             break;
         default:
