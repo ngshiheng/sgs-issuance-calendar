@@ -9,9 +9,8 @@ function main(): void {
 
     createMonthlyTrigger();
     createSixMonthTBillsIssuanceCalendar(masApiService, startDate, endDate, 0.5);
-
+    createSavingsBondsIssuanceCalendar(masApiService, startDate, endDate);
     // TODO: Create createOneYearTBillsIssuanceCalendar
-    // TODO: Create createSavingsBondsIssuanceCalendar
 }
 
 function createMonthlyTrigger(): GoogleAppsScript.Script.Trigger {
@@ -35,6 +34,8 @@ function createSixMonthTBillsIssuanceCalendar(api: MASApiService, startDate: str
     const response = api.getTBillsIssuanceCalendar(startDate, endDate, auctionTenor);
     const records = response.result.records;
 
+    const existingEvents = calendar.getEvents(new Date(startDate), new Date(endDate));
+
     for (const record of records) {
         const issueCode = record.issue_code;
         const announcementDate = new Date(record.ann_date);
@@ -49,8 +50,6 @@ function createSixMonthTBillsIssuanceCalendar(api: MASApiService, startDate: str
             `Maturity Date: <b>${record.maturity_date}</b>\n` +
             `Issue Code: <b>${record.issue_code}</b>\n` +
             `ISIN Code: <b>${record.isin_code}</b>`;
-
-        const existingEvents = calendar.getEvents(announcementDate, auctionDate);
 
         const announcementEventExists = existingEvents.some((event) => event.getTitle() === announcementTitle);
         if (announcementEventExists) {
@@ -69,6 +68,54 @@ function createSixMonthTBillsIssuanceCalendar(api: MASApiService, startDate: str
             Logger.log(`Creating "${auctionTitle}"`);
             calendar
                 .createAllDayEvent(auctionTitle, auctionDate, { description: eventDescription })
+                .setGuestsCanSeeGuests(false);
+        }
+    }
+}
+
+function createSavingsBondsIssuanceCalendar(api: MASApiService, startDate: string, endDate: string) {
+    const calendarName = "Savings Bonds";
+    const calendar = getOrCreateCalendar(calendarName);
+
+    const response = api.getSavingsBondIssuanceCalendar(startDate, endDate);
+    const records = response.result.records;
+
+    const existingEvents = calendar.getEvents(new Date(startDate), new Date(endDate));
+
+    for (const record of records) {
+        const issueCode = record.issue_code;
+        const announcementDate = new Date(record.ann_date);
+        const closingDate = new Date(record.last_day_to_apply);
+
+        const announcementTitle = `SSB Announcement - ${issueCode}`;
+        const closingTitle = `SSB Closing - ${issueCode}`;
+
+        const eventDescription =
+            `Announcement Date: <b>${record.ann_date}</b>\n` +
+            `Closing Date: <b>${record.last_day_to_apply}</b>\n` +
+            `Allotment Date: <b>${record.tender_date}</b>\n` +
+            `Issue Date: <b>${record.issue_date}</b>\n` +
+            `Maturity Date: <b>${record.maturity_date}</b>\n` +
+            `Issue Code: <b>${record.issue_code}</b>\n` +
+            `ISIN Code: <b>${record.isin_code}</b>`;
+
+        const announcementEventExists = existingEvents.some((event) => event.getTitle() === announcementTitle);
+        if (announcementEventExists) {
+            Logger.log(`Event "${announcementTitle}" already exist`);
+        } else {
+            Logger.log(`Creating "${announcementTitle}"`);
+            calendar
+                .createAllDayEvent(announcementTitle, announcementDate, { description: eventDescription })
+                .setGuestsCanSeeGuests(false);
+        }
+
+        const auctionEventExists = existingEvents.some((event) => event.getTitle() === closingTitle);
+        if (auctionEventExists) {
+            Logger.log(`Event "${closingTitle}" already exist`);
+        } else {
+            Logger.log(`Creating "${closingTitle}"`);
+            calendar
+                .createAllDayEvent(closingTitle, closingDate, { description: eventDescription })
                 .setGuestsCanSeeGuests(false);
         }
     }

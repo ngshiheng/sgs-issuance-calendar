@@ -10,6 +10,8 @@ interface BondRecord {
     new_reopen: string;
     ann_date: string;
     auction_date: string;
+    last_day_to_apply: string;
+    tender_date: string;
     issue_date: string;
     flag: string;
     maturity_date: string;
