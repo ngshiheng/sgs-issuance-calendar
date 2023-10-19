@@ -8,10 +8,10 @@ function main(): void {
     const endDate = `${today.getFullYear()}-12-31`;
 
     createMonthlyTrigger();
+    createSGSBondsIssuanceCalendar(masApiService, startDate, endDate);
     createTBillsIssuanceCalendar(masApiService, startDate, endDate, 0.5);
     createTBillsIssuanceCalendar(masApiService, startDate, endDate, 1);
     createSavingsBondsIssuanceCalendar(masApiService, startDate, endDate);
-    // TODO: Create createOneYearTBillsIssuanceCalendar
 }
 
 function createMonthlyTrigger(): GoogleAppsScript.Script.Trigger {
@@ -28,7 +28,7 @@ function createMonthlyTrigger(): GoogleAppsScript.Script.Trigger {
     return ScriptApp.newTrigger(main.name).timeBased().onMonthDay(1).atHour(1).create();
 }
 
-function createTBillsIssuanceCalendar(api: MASApiService, startDate: string, endDate: string, auctionTenor: number) {
+function createTBillsIssuanceCalendar(api: MASApiService, startDate: string, endDate: string, auctionTenor: number): void {
     let calendarName: string;
 
     switch (auctionTenor) {
@@ -86,7 +86,7 @@ function createTBillsIssuanceCalendar(api: MASApiService, startDate: string, end
     }
 }
 
-function createSavingsBondsIssuanceCalendar(api: MASApiService, startDate: string, endDate: string) {
+function createSavingsBondsIssuanceCalendar(api: MASApiService, startDate: string, endDate: string): void {
     const calendarName = "Savings Bonds";
     const calendar = getOrCreateCalendar(calendarName);
 
@@ -134,7 +134,55 @@ function createSavingsBondsIssuanceCalendar(api: MASApiService, startDate: strin
     }
 }
 
-export function getOrCreateCalendar(calendarName: string): GoogleAppsScript.Calendar.Calendar {
+function createSGSBondsIssuanceCalendar(api: MASApiService, startDate: string, endDate: string): void {
+    const calendarName = "SGS Bonds";
+    const calendar = getOrCreateCalendar(calendarName);
+
+    const response = api.getSGSBondsIssuanceCalendar(startDate, endDate);
+    const records = response.result.records;
+
+    const existingEvents = calendar.getEvents(new Date(startDate), new Date(endDate));
+
+    for (const record of records) {
+        const issueCode = record.issue_code;
+        const announcementDate = new Date(record.ann_date);
+        const auctionDate = new Date(record.auction_date);
+
+        const announcementTitle = `SGS Bonds Announcement - ${issueCode}`;
+        const auctionTitle = `SGS Bonds Auction - ${issueCode}`;
+        const eventDescription =
+            `Announcement Date: <b>${record.ann_date}</b>\n` +
+            `Auction Date: <b>${record.auction_date}</b>\n` +
+            `Issue Date: <b>${record.issue_date}</b>\n` +
+            `Maturity Date: <b>${record.maturity_date}</b>\n` +
+            `Tenor: <b>${record.auction_tenor}-year</b>\n` +
+            `Issue Code: <b>${record.issue_code}</b>\n` +
+            `ISIN Code: <b>${record.isin_code}</b>\n` +
+            `SGS Type: <b>${record.sgs_type}</b>`;
+
+        const announcementEventExists = existingEvents.some((event) => event.getTitle() === announcementTitle);
+        if (announcementEventExists) {
+            Logger.log(`Event "${announcementTitle}" already exist`);
+        } else {
+            Logger.log(`Creating "${announcementTitle}"`);
+            calendar
+                .createAllDayEvent(announcementTitle, announcementDate, { description: eventDescription })
+                .setGuestsCanSeeGuests(false);
+        }
+
+        const auctionEventExists = existingEvents.some((event) => event.getTitle() === auctionTitle);
+        if (auctionEventExists) {
+            Logger.log(`Event "${auctionTitle}" already exist`);
+        } else {
+            Logger.log(`Creating "${auctionTitle}"`);
+            calendar
+                .createAllDayEvent(auctionTitle, auctionDate, { description: eventDescription })
+                .setGuestsCanSeeGuests(false);
+        }
+    }
+}
+
+function getOrCreateCalendar(calendarName: string): GoogleAppsScript.Calendar.Calendar {
     const calendars = CalendarApp.getCalendarsByName(calendarName);
 
     const existingCalendar = calendars.find((calendar) => calendar.isOwnedByMe);
