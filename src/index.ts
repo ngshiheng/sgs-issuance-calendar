@@ -8,7 +8,8 @@ function main(): void {
     const endDate = `${today.getFullYear()}-12-31`;
 
     createMonthlyTrigger();
-    createSixMonthTBillsIssuanceCalendar(masApiService, startDate, endDate, 0.5);
+    createTBillsIssuanceCalendar(masApiService, startDate, endDate, 0.5);
+    createTBillsIssuanceCalendar(masApiService, startDate, endDate, 1);
     createSavingsBondsIssuanceCalendar(masApiService, startDate, endDate);
     // TODO: Create createOneYearTBillsIssuanceCalendar
 }
@@ -27,8 +28,20 @@ function createMonthlyTrigger(): GoogleAppsScript.Script.Trigger {
     return ScriptApp.newTrigger(main.name).timeBased().onMonthDay(1).atHour(1).create();
 }
 
-function createSixMonthTBillsIssuanceCalendar(api: MASApiService, startDate: string, endDate: string, auctionTenor: number) {
-    const calendarName = "6-Month T-bill";
+function createTBillsIssuanceCalendar(api: MASApiService, startDate: string, endDate: string, auctionTenor: number) {
+    let calendarName: string;
+
+    switch (auctionTenor) {
+        case 1:
+            calendarName = "6-Month T-bill";
+            break;
+        case 0.5:
+            calendarName = "1-Year T-bill";
+            break;
+        default:
+            throw new Error("Invalid auction tenor for T-bill");
+    }
+
     const calendar = getOrCreateCalendar(calendarName);
 
     const response = api.getTBillsIssuanceCalendar(startDate, endDate, auctionTenor);
