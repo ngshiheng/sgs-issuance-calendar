@@ -1,4 +1,7 @@
 {
+    "name": "sgs-issuance-calendar",
+    "description": "A Google Apps Script project designed to create Google Calendar calendars with events for Singapore Government Securities (SGS) based on MAS Auctions and Issuance Calendar.",
+    "license": "MIT",
     "scripts": {
         "test": "npx jest"
     },
