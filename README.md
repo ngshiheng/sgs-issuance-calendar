@@ -4,14 +4,6 @@ A Google Apps Script project made to create Google Calendar events for [Singapor
 
 It retrieves SGS data such as SGS, SSB, and T-bills from MAS API and generates events of key dates related to SGS issuances.
 
-## Table of Contents
-
-- [sgs-issuance-calendar](#sgs-issuance-calendar)
-  - [Table of Contents](#table-of-contents)
-  - [Usage](#usage)
-  - [Contributing](#contributing)
-  - [License](#license)
-
 ## Usage
 
 You can subscribe to the following calendars for Singapore Bonds and T-bills to stay updated with important dates:
