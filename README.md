@@ -15,10 +15,22 @@ You can subscribe to the following calendars for Singapore Bonds and T-bills to 
 | 1-Year T-Bill Calendar  | [Add calendar](https://calendar.google.com/calendar/u/0?cid=NDcxNzZkMTIwZWZiM2M4OTM1OTIxZTgxNmM3YzUzMGY4N2ExNmM0NThjNGFiYTQyZjljZWRkNTE4NWZmNDgzM0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t) |
 | Savings Bond Calendar   | [Add calendar](https://calendar.google.com/calendar/u/0?cid=NDY1MjEwOGViZTU5YjAyZmE3MTdkNmM3NzU5MmNkZjcyNmJlNDgwM2NlM2M2ZmJhOTM5ZGY5ZTI3Nzg3YTY3NEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t) |
 
+## FAQ
+
+Check out these [FAQs](docs/FAQ.md).
+
 ## Contributing
 
-General guidelines for contributing can be found [here](docs/CONTRIBUTING.md).
+If you want to contribute, please read the instructions in [contributing guidelines](docs/CONTRIBUTING.md).
 
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
+
+## Disclaimer
+
+The `sgs-issuance-calendar` project is provided "as is" without any warranty. Use at your own risk. The authors and contributors are not liable for any damages or issues arising from the use of the project. This project does not provide legal or professional advice, and it may use third-party components subject to their terms and conditions.
+
+Please review this disclaimer regularly for any updates.
+
+By using the project, you agree to these terms.
