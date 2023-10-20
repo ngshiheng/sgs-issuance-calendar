@@ -182,7 +182,7 @@ function createSavingsBondsIssuanceCalendar(api: MASApiService, startDate: strin
     }
 }
 
-function getOrCreateCalendar(calendarName: string): GoogleAppsScript.Calendar.Calendar {
+export function getOrCreateCalendar(calendarName: string): GoogleAppsScript.Calendar.Calendar {
     const calendars = CalendarApp.getCalendarsByName(calendarName);
 
     const existingCalendar = calendars.find((calendar) => calendar.isOwnedByMe);
