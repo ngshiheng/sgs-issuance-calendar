@@ -1,17 +1,17 @@
 import { MASApiService } from "./api";
 
 function main(): void {
-    const masApiService = new MASApiService();
+    const api = new MASApiService();
 
     const today = new Date();
     const startDate = `${today.getFullYear()}-01-01`;
     const endDate = `${today.getFullYear()}-12-31`;
 
     createMonthlyTrigger();
-    createSGSBondsIssuanceCalendar(masApiService, startDate, endDate);
-    createTBillsIssuanceCalendar(masApiService, startDate, endDate, 0.5);
-    createTBillsIssuanceCalendar(masApiService, startDate, endDate, 1);
-    createSavingsBondsIssuanceCalendar(masApiService, startDate, endDate);
+    createSGSBondsIssuanceCalendar(api, startDate, endDate);
+    createTBillsIssuanceCalendar(api, startDate, endDate, 0.5);
+    createTBillsIssuanceCalendar(api, startDate, endDate, 1);
+    createSavingsBondsIssuanceCalendar(api, startDate, endDate);
 }
 
 function createMonthlyTrigger(): GoogleAppsScript.Script.Trigger {

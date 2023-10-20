@@ -43,7 +43,7 @@ describe("MASApiService", () => {
         expect(url).toBe(expectedUrl);
     });
 
-    it("should construct the correct SGS Bonds Issuance Calendar endpoint", () => {
+    it("should call the correct SGS Bonds Issuance Calendar endpoint", () => {
         masApiService.getSGSBondsIssuanceCalendar("2023-01-01", "2023-12-31");
 
         const url =
@@ -51,10 +51,13 @@ describe("MASApiService", () => {
         const expectedUrl = encodeURI(url);
 
         expect(mockURLFetchApp.fetch).toHaveBeenCalled();
-        expect(mockURLFetchApp.fetch).toHaveBeenCalledWith(expectedUrl, expect.any(Object));
+        expect(mockURLFetchApp.fetch).toHaveBeenCalledWith(expectedUrl, {
+            method: "get",
+            muteHttpExceptions: true,
+        });
     });
 
-    it("should construct the correct T-Bills Issuance Calendar endpoint", () => {
+    it("should call the correct T-Bills Issuance Calendar endpoint", () => {
         masApiService.getTBillsIssuanceCalendar("2023-01-01", "2023-12-31", 0.5);
 
         const url =
@@ -62,10 +65,13 @@ describe("MASApiService", () => {
         const expectedUrl = encodeURI(url);
 
         expect(mockURLFetchApp.fetch).toHaveBeenCalled();
-        expect(mockURLFetchApp.fetch).toHaveBeenCalledWith(expectedUrl, expect.any(Object));
+        expect(mockURLFetchApp.fetch).toHaveBeenCalledWith(expectedUrl, {
+            method: "get",
+            muteHttpExceptions: true,
+        });
     });
 
-    it("should construct the correct Savings Bond Issuance Calendar endpoint", () => {
+    it("should call the correct Savings Bond Issuance Calendar endpoint", () => {
         masApiService.getSavingsBondIssuanceCalendar("2023-01-01", "2023-12-31");
 
         const url =
@@ -73,6 +79,9 @@ describe("MASApiService", () => {
         const expectedUrl = encodeURI(url);
 
         expect(mockURLFetchApp.fetch).toHaveBeenCalled();
-        expect(mockURLFetchApp.fetch).toHaveBeenCalledWith(expectedUrl, expect.any(Object));
+        expect(mockURLFetchApp.fetch).toHaveBeenCalledWith(expectedUrl, {
+            method: "get",
+            muteHttpExceptions: true,
+        });
     });
 });
