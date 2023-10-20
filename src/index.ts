@@ -14,7 +14,7 @@ function main(): void {
     createSavingsBondsIssuanceCalendar(api, startDate, endDate);
 }
 
-function createMonthlyTrigger(): GoogleAppsScript.Script.Trigger {
+export function createMonthlyTrigger(): GoogleAppsScript.Script.Trigger {
     const triggers = ScriptApp.getProjectTriggers();
     for (const trigger of triggers) {
         const triggerExist = trigger.getHandlerFunction() === main.name;
