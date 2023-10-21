@@ -3,15 +3,16 @@
     "description": "A Google Apps Script project made to create Google Calendars for Singapore Government Securities (SGS) based on MAS Auctions and Issuance Calendar.",
     "license": "MIT",
     "scripts": {
-        "test": "npx jest"
-    },
-    "dependencies": {
-        "@types/google-apps-script": "^1.0.75"
+        "test": "npx jest",
+        "prettier": "prettier \"./**/*.{js,ts,yml,yaml}\" -l --ignore-path .eslintignore",
+        "prettier:fix": "prettier \"./**/*.{js,ts,yml,yaml}\" --write --ignore-path .eslintignore"
     },
     "devDependencies": {
+        "@types/google-apps-script": "^1.0.76",
         "@types/jest": "^29.5.5",
         "jest": "^29.7.0",
         "prettier": "^3.0.3",
+        "semantic-release": "^22.0.5",
         "ts-jest": "^29.1.1",
         "typescript": "^5.2.2"
     },
@@ -26,5 +27,11 @@
         "transform": {
             "^.+\\.ts$": "ts-jest"
         }
+    },
+    "release": {
+        "private": true,
+        "branches": [
+            "main"
+        ]
     }
 }
