@@ -1,5 +1,8 @@
 # sgs-issuance-calendar
 
+[![CI](https://github.com/ngshiheng/sgs-issuance-calendar/actions/workflows/ci.yml/badge.svg)](https://github.com/ngshiheng/sgs-issuance-calendar/actions/workflows/ci.yml)
+[![Release](https://github.com/ngshiheng/sgs-issuance-calendar/actions/workflows/release.yml/badge.svg)](https://github.com/ngshiheng/sgs-issuance-calendar/actions/workflows/release.yml)
+
 A Google Apps Script project made to create Google Calendar events for [Singapore Government Securities (SGS)](https://www.mas.gov.sg/bonds-and-bills) based on [MAS Auctions and Issuance Calendar](https://www.mas.gov.sg/bonds-and-bills/auctions-and-issuance-calendar).
 
 It retrieves SGS data such as SGS, SSB, and T-bills from MAS API and generates events of key dates related to SGS issuances.
