@@ -3,7 +3,7 @@
     "description": "A Google Apps Script project made to create Google Calendars for Singapore Government Securities (SGS) based on MAS Auctions and Issuance Calendar.",
     "license": "MIT",
     "scripts": {
-        "test": "npx jest",
+        "test": "jest",
         "prettier": "prettier \"./**/*.{js,ts,yml,yaml}\" -l --ignore-path .eslintignore",
         "prettier:fix": "prettier \"./**/*.{js,ts,yml,yaml}\" --write --ignore-path .eslintignore"
     },
@@ -28,8 +28,12 @@
             "^.+\\.ts$": "ts-jest"
         }
     },
+    "private": true,
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ngshiheng/sgs-issuance-calendar.git"
+    },
     "release": {
-        "private": true,
         "branches": [
             "main"
         ]
