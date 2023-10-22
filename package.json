@@ -1,6 +1,6 @@
 {
     "name": "sgs-issuance-calendar",
-    "description": "A Google Apps Script project made to create Google Calendars for Singapore Government Securities (SGS) based on MAS Auctions and Issuance Calendar.",
+    "description": "A GAS project made to create Google Calendars for SGS based on MAS Auctions and Issuance Calendar.",
     "license": "MIT",
     "scripts": {
         "test": "jest",
@@ -10,7 +10,6 @@
     "devDependencies": {
         "@types/google-apps-script": "^1.0.76",
         "@types/jest": "^29.5.5",
-        "jest": "^29.7.0",
         "prettier": "^3.0.3",
         "semantic-release": "^22.0.5",
         "ts-jest": "^29.1.1",
@@ -22,17 +21,9 @@
         "printWidth": 128
     },
     "jest": {
-        "preset": "ts-jest",
-        "testEnvironment": "node",
-        "transform": {
-            "^.+\\.ts$": "ts-jest"
-        }
+        "preset": "ts-jest"
     },
     "private": true,
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/ngshiheng/sgs-issuance-calendar.git"
-    },
     "release": {
         "branches": [
             "main"
