@@ -162,7 +162,7 @@ export function createEventDescription(record: BondRecord): string {
         { key: "Issue Date", value: record.issue_date },
         { key: "Maturity Date", value: record.maturity_date },
         { key: "SGS Type", value: record.sgs_type },
-        { key: "Tenor", value: `${record.auction_tenor} year` },
+        { key: "Tenor", value: record.auction_tenor ? `${record.auction_tenor} year` : null },
     ];
 
     const description = fields

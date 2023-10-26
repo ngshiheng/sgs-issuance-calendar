@@ -1,4 +1,5 @@
-import { createMonthlyTrigger, getOrCreateCalendar, updateOrCreateAllDayEvent } from "../src/index";
+import { BondRecord } from "../src/api";
+import { createEventDescription, createMonthlyTrigger, getOrCreateCalendar, updateOrCreateAllDayEvent } from "../src/index";
 
 // Create a mock for ScriptApp
 const mockScriptApp = {
@@ -140,5 +141,81 @@ describe("updateOrCreateAllDayEvent", () => {
         expect(mockCalendar.createAllDayEvent).toHaveBeenCalledWith(title, date, { description });
         expect(mockEvent.setDescription).not.toHaveBeenCalled();
         expect(mockLogger.log).toHaveBeenCalledWith(`Creating "${title}"`);
+    });
+});
+
+describe("createEventDescription", () => {
+    it("should create an event description with all provided fields", () => {
+        const record = {
+            issue_code: "ABC123",
+            isin_code: "XYZ987",
+            ann_date: "2023-10-20",
+            auction_date: "2023-11-05",
+            last_day_to_apply: "2023-10-31",
+            tender_date: "2023-11-01",
+            issue_date: "2023-11-15",
+            maturity_date: "2030-11-15",
+            sgs_type: "Government Bond",
+            auction_tenor: "5",
+        };
+
+        const expectedDescription = `<b>Allotment Date</b>: 2023-11-01
+<b>Announcement Date</b>: 2023-10-20
+<b>Auction Date</b>: 2023-11-05
+<b>Closing Date</b>: 2023-10-31
+<b>ISIN Code</b>: XYZ987
+<b>Issue Code</b>: ABC123
+<b>Issue Date</b>: 2023-11-15
+<b>Maturity Date</b>: 2030-11-15
+<b>SGS Type</b>: Government Bond
+<b>Tenor</b>: 5 year`;
+
+        const description = createEventDescription(record as BondRecord);
+
+        expect(description).toBe(expectedDescription);
+    });
+
+    it("should create an event description with missing fields omitted", () => {
+        const recordWithMissingFields = {
+            issue_code: "ABC123",
+            isin_code: "XYZ987",
+            ann_date: "2023-10-20",
+            auction_tenor: "5",
+        };
+
+        const expectedDescription = `<b>Announcement Date</b>: 2023-10-20
+<b>ISIN Code</b>: XYZ987
+<b>Issue Code</b>: ABC123
+<b>Tenor</b>: 5 year`;
+
+        const description = createEventDescription(recordWithMissingFields as BondRecord);
+
+        expect(description).toBe(expectedDescription);
+    });
+
+    it("should create an event description with missing fields omitted", () => {
+        const recordWithMissingFields = {
+            issue_code: "ABC123",
+            isin_code: "XYZ987",
+            ann_date: "2023-10-20",
+            auction_tenor: "5",
+        };
+
+        const expectedDescription = `<b>Announcement Date</b>: 2023-10-20
+<b>ISIN Code</b>: XYZ987
+<b>Issue Code</b>: ABC123
+<b>Tenor</b>: 5 year`;
+
+        const description = createEventDescription(recordWithMissingFields as BondRecord);
+
+        expect(description).toBe(expectedDescription);
+    });
+
+    it("should create an empty description for an empty record", () => {
+        const emptyRecord = {} as BondRecord;
+
+        const description = createEventDescription(emptyRecord);
+
+        expect(description).toBe("");
     });
 });
