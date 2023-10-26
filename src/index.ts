@@ -60,8 +60,11 @@ function createSGSBondsIssuanceCalendar(api: MASApiService, startDate: string, e
         } else {
             Logger.log(`Creating "${announcementTitle}"`);
             calendar
-                .createAllDayEvent(announcementTitle, announcementDate, { description: eventDescription })
-                .setGuestsCanSeeGuests(false);
+                .createAllDayEvent(announcementTitle, announcementDate, {
+                    description: eventDescription,
+                })
+                .setGuestsCanSeeGuests(false)
+                .setVisibility(CalendarApp.Visibility.PUBLIC);
         }
 
         const auctionEventExists = existingEvents.some((event) => event.getTitle() === auctionTitle);
@@ -70,8 +73,11 @@ function createSGSBondsIssuanceCalendar(api: MASApiService, startDate: string, e
         } else {
             Logger.log(`Creating "${auctionTitle}"`);
             calendar
-                .createAllDayEvent(auctionTitle, auctionDate, { description: eventDescription })
-                .setGuestsCanSeeGuests(false);
+                .createAllDayEvent(auctionTitle, auctionDate, {
+                    description: eventDescription,
+                })
+                .setGuestsCanSeeGuests(false)
+                .setVisibility(CalendarApp.Visibility.PUBLIC);
         }
     }
 }
@@ -118,8 +124,11 @@ function createTBillsIssuanceCalendar(api: MASApiService, startDate: string, end
         } else {
             Logger.log(`Creating "${announcementTitle}"`);
             calendar
-                .createAllDayEvent(announcementTitle, announcementDate, { description: eventDescription })
-                .setGuestsCanSeeGuests(false);
+                .createAllDayEvent(announcementTitle, announcementDate, {
+                    description: eventDescription,
+                })
+                .setGuestsCanSeeGuests(false)
+                .setVisibility(CalendarApp.Visibility.PUBLIC);
         }
 
         const auctionEventExists = existingEvents.some((event) => event.getTitle() === auctionTitle);
@@ -128,8 +137,11 @@ function createTBillsIssuanceCalendar(api: MASApiService, startDate: string, end
         } else {
             Logger.log(`Creating "${auctionTitle}"`);
             calendar
-                .createAllDayEvent(auctionTitle, auctionDate, { description: eventDescription })
-                .setGuestsCanSeeGuests(false);
+                .createAllDayEvent(auctionTitle, auctionDate, {
+                    description: eventDescription,
+                })
+                .setGuestsCanSeeGuests(false)
+                .setVisibility(CalendarApp.Visibility.PUBLIC);
         }
     }
 }
@@ -166,8 +178,11 @@ function createSavingsBondsIssuanceCalendar(api: MASApiService, startDate: strin
         } else {
             Logger.log(`Creating "${announcementTitle}"`);
             calendar
-                .createAllDayEvent(announcementTitle, announcementDate, { description: eventDescription })
-                .setGuestsCanSeeGuests(false);
+                .createAllDayEvent(announcementTitle, announcementDate, {
+                    description: eventDescription,
+                })
+                .setGuestsCanSeeGuests(false)
+                .setVisibility(CalendarApp.Visibility.PUBLIC);
         }
 
         const auctionEventExists = existingEvents.some((event) => event.getTitle() === closingTitle);
@@ -176,8 +191,11 @@ function createSavingsBondsIssuanceCalendar(api: MASApiService, startDate: strin
         } else {
             Logger.log(`Creating "${closingTitle}"`);
             calendar
-                .createAllDayEvent(closingTitle, closingDate, { description: eventDescription })
-                .setGuestsCanSeeGuests(false);
+                .createAllDayEvent(closingTitle, closingDate, {
+                    description: eventDescription,
+                })
+                .setGuestsCanSeeGuests(false)
+                .setVisibility(CalendarApp.Visibility.PUBLIC);
         }
     }
 }
