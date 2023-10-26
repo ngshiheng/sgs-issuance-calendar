@@ -1,4 +1,4 @@
-interface BondRecord {
+export interface BondRecord {
     issue_code: string;
     issue_no: string;
     isin_code: string;
