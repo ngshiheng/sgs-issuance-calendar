@@ -1,4 +1,4 @@
-import { createMonthlyTrigger, getOrCreateCalendar } from "../src/index";
+import { createMonthlyTrigger, getOrCreateCalendar, updateOrCreateAllDayEvent } from "../src/index";
 
 // Create a mock for ScriptApp
 const mockScriptApp = {
@@ -24,6 +24,7 @@ const mockCalendarApp = {
     setDescription: jest.fn(),
     setTimeZone: jest.fn(),
     getName: jest.fn(),
+    Visibility: jest.fn(),
 };
 
 // Mock the GoogleAppsScript.Calendar.Calendar object
@@ -32,6 +33,17 @@ const mockCalendar = {
     setDescription: jest.fn(),
     setSelected: jest.fn(),
     setTimeZone: jest.fn(),
+    createAllDayEvent: jest.fn(() => mockEvent),
+};
+
+// Mock the GoogleAppsScript.Calendar.CalendarEvent object
+const mockEvent = {
+    getTitle: jest.fn(),
+    setDescription: jest.fn(),
+    setVisibility: jest.fn(),
+    setGuestsCanModify: jest.fn(),
+    setGuestsCanSeeGuests: jest.fn(),
+    setGuestsCanInviteOthers: jest.fn(),
 };
 
 // Mock the global objects
@@ -95,5 +107,38 @@ describe("getOrCreateCalendar", () => {
         expect(result).toBe(mockCalendar);
         expect(mockCalendarApp.createCalendar).toHaveBeenCalledWith(calendarName);
         expect(mockLogger.log).toHaveBeenCalledWith(`Creating new "${calendarName}" calendar`);
+    });
+});
+
+describe("updateOrCreateAllDayEvent", () => {
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
+    it("should update an existing event if one exists", () => {
+        mockEvent.getTitle.mockReturnValue("Existing Event");
+        const existingEvents = [mockEvent];
+
+        const title = "Existing Event";
+        const description = "Updated Description";
+        const date = new Date();
+
+        updateOrCreateAllDayEvent(title, description, date, mockCalendar as any, existingEvents as any);
+
+        expect(mockCalendar.createAllDayEvent).not.toHaveBeenCalled();
+        expect(mockEvent.setDescription).toHaveBeenCalledWith(description);
+        expect(mockLogger.log).toHaveBeenCalledWith(`Event "${title}" already exist`);
+    });
+
+    it("should create a new event if none exists", () => {
+        const title = "New Event";
+        const description = "New Description";
+        const date = new Date();
+
+        updateOrCreateAllDayEvent(title, description, date, mockCalendar as any, []);
+
+        expect(mockCalendar.createAllDayEvent).toHaveBeenCalledWith(title, date, { description });
+        expect(mockEvent.setDescription).not.toHaveBeenCalled();
+        expect(mockLogger.log).toHaveBeenCalledWith(`Creating "${title}"`);
     });
 });
