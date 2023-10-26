@@ -4,6 +4,7 @@
     "license": "MIT",
     "scripts": {
         "test": "jest",
+        "deploy": "clasp push -f",
         "prettier": "prettier \"./**/*.{js,ts,yml,yaml}\" -l --ignore-path .eslintignore",
         "prettier:fix": "prettier \"./**/*.{js,ts,yml,yaml}\" --write --ignore-path .eslintignore"
     },
