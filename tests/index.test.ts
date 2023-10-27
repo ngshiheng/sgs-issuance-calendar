@@ -193,12 +193,13 @@ describe("createEventDescription", () => {
         expect(description).toBe(expectedDescription);
     });
 
-    it("should create an event description with missing fields omitted", () => {
+    it("should create an event description without null fields", () => {
         const recordWithMissingFields = {
             issue_code: "ABC123",
             isin_code: "XYZ987",
             ann_date: "2023-10-20",
             auction_tenor: "5",
+            maturity_date: null,
         };
 
         const expectedDescription = `<b>Announcement Date</b>: 2023-10-20
