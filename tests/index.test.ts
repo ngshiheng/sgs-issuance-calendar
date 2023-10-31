@@ -168,7 +168,11 @@ describe("createEventDescription", () => {
 <b>Issue Date</b>: 2023-11-15
 <b>Maturity Date</b>: 2030-11-15
 <b>SGS Type</b>: Government Bond
-<b>Tenor</b>: 5 year`;
+<b>Tenor</b>: 5 year
+
+<b>More Details</b>: <a href='https://www.mas.gov.sg/bonds-and-bills/auctions-and-issuance-calendar'>MAS Bonds and Bills Auctions and Issuance Calendar</a>
+
+<i>Feel free to report any issues or contribute to the source code on this <a href='https://github.com/ngshiheng/sgs-issuance-calendar'>GitHub repository</a>.</i>`;
 
         const description = createEventDescription(record as BondRecord);
 
@@ -181,14 +185,18 @@ describe("createEventDescription", () => {
             isin_code: "XYZ987",
             ann_date: "2023-10-20",
             auction_tenor: "5",
-        };
+        } as BondRecord;
 
         const expectedDescription = `<b>Announcement Date</b>: 2023-10-20
 <b>ISIN Code</b>: XYZ987
 <b>Issue Code</b>: ABC123
-<b>Tenor</b>: 5 year`;
+<b>Tenor</b>: 5 year
 
-        const description = createEventDescription(recordWithMissingFields as BondRecord);
+<b>More Details</b>: <a href='https://www.mas.gov.sg/bonds-and-bills/auctions-and-issuance-calendar'>MAS Bonds and Bills Auctions and Issuance Calendar</a>
+
+<i>Feel free to report any issues or contribute to the source code on this <a href='https://github.com/ngshiheng/sgs-issuance-calendar'>GitHub repository</a>.</i>`;
+
+        const description = createEventDescription(recordWithMissingFields);
 
         expect(description).toBe(expectedDescription);
     });
@@ -200,23 +208,33 @@ describe("createEventDescription", () => {
             ann_date: "2023-10-20",
             auction_tenor: "5",
             maturity_date: null,
-        };
+        } as BondRecord;
 
         const expectedDescription = `<b>Announcement Date</b>: 2023-10-20
 <b>ISIN Code</b>: XYZ987
 <b>Issue Code</b>: ABC123
-<b>Tenor</b>: 5 year`;
+<b>Tenor</b>: 5 year
 
-        const description = createEventDescription(recordWithMissingFields as BondRecord);
+<b>More Details</b>: <a href='https://www.mas.gov.sg/bonds-and-bills/auctions-and-issuance-calendar'>MAS Bonds and Bills Auctions and Issuance Calendar</a>
+
+<i>Feel free to report any issues or contribute to the source code on this <a href='https://github.com/ngshiheng/sgs-issuance-calendar'>GitHub repository</a>.</i>`;
+
+        const description = createEventDescription(recordWithMissingFields);
 
         expect(description).toBe(expectedDescription);
     });
 
-    it("should create an empty description for an empty record", () => {
+    it("should create only a default event description for an empty record", () => {
         const emptyRecord = {} as BondRecord;
+
+        const expectedDescription = `
+
+<b>More Details</b>: <a href='https://www.mas.gov.sg/bonds-and-bills/auctions-and-issuance-calendar'>MAS Bonds and Bills Auctions and Issuance Calendar</a>
+
+<i>Feel free to report any issues or contribute to the source code on this <a href='https://github.com/ngshiheng/sgs-issuance-calendar'>GitHub repository</a>.</i>`;
 
         const description = createEventDescription(emptyRecord);
 
-        expect(description).toBe("");
+        expect(description).toBe(expectedDescription);
     });
 });

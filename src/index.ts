@@ -165,10 +165,17 @@ export function createEventDescription(record: BondRecord): string {
         { key: "Tenor", value: record.auction_tenor ? `${record.auction_tenor} year` : null },
     ];
 
+    const masCalendarLink = "https://www.mas.gov.sg/bonds-and-bills/auctions-and-issuance-calendar";
+
+    const githubRepoLink = "https://github.com/ngshiheng/sgs-issuance-calendar";
+
     const description = fields
         .filter((field) => field.value)
         .map((field) => `<b>${field.key}</b>: ${field.value}`)
         .join("\n");
 
-    return description;
+    const moreDetails = `<b>More Details</b>: <a href='${masCalendarLink}'>MAS Bonds and Bills Auctions and Issuance Calendar</a>`;
+    const githubInfo = `<i>Feel free to report any issues or contribute to the source code on this <a href='${githubRepoLink}'>GitHub repository</a>.</i>`;
+
+    return `${description}\n\n${moreDetails}\n\n${githubInfo}`;
 }
