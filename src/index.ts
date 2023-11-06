@@ -86,7 +86,7 @@ function createSavingsBondsIssuanceCalendar(api: MASApiService, startDate: strin
         const announcementTitle = `SSB Announcement - ${record.issue_code}`;
         updateOrCreateAllDayEvent(announcementTitle, eventDescription, announcementDate, calendar, existingEvents);
 
-        const closingDate = new Date(record.auction_date);
+        const closingDate = new Date(record.last_day_to_apply);
         const closingTitle = `SSB Closing - ${record.issue_code}`;
         updateOrCreateAllDayEvent(closingTitle, eventDescription, closingDate, calendar, existingEvents);
     }
