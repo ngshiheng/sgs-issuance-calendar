@@ -7,6 +7,8 @@ A Google Apps Script project made to create Google Calendar events for [Singapor
 
 It retrieves SGS data such as SGS, SSB, and T-bills from MAS API and generates events of key dates related to SGS issuances.
 
+[Read more...](https://jerrynsh.com/creating-a-mas-t-bill-calendar/)
+
 <p align="center">
   <img width=auto height=auto src="assets/example.png">
 </p>
