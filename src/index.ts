@@ -14,6 +14,15 @@ function main(): void {
     createSavingsBondsIssuanceCalendar(api, startDate, endDate);
 }
 
+export function getRelativeDate(daysOffset: number, hour: number, date = new Date()) {
+    date.setDate(date.getDate() + daysOffset);
+    date.setHours(hour);
+    date.setMinutes(0);
+    date.setSeconds(0);
+    date.setMilliseconds(0);
+    return date;
+}
+
 function createSGSBondsIssuanceCalendar(api: MASApiService, startDate: string, endDate: string): void {
     const calendarName = "SGS Bonds";
     const calendar = getOrCreateCalendar(calendarName);
@@ -21,7 +30,7 @@ function createSGSBondsIssuanceCalendar(api: MASApiService, startDate: string, e
     const response = api.getSGSBondsIssuanceCalendar(startDate, endDate);
     const records = response.result.records;
 
-    const existingEvents = calendar.getEvents(new Date(startDate), new Date(endDate));
+    const existingEvents = calendar.getEvents(new Date(startDate), getRelativeDate(365, 0, new Date(endDate)));
 
     for (const record of records) {
         const eventDescription = createEventDescription(record);
@@ -55,7 +64,7 @@ function createTBillsIssuanceCalendar(api: MASApiService, startDate: string, end
     const response = api.getTBillsIssuanceCalendar(startDate, endDate, auctionTenor);
     const records = response.result.records;
 
-    const existingEvents = calendar.getEvents(new Date(startDate), new Date(endDate));
+    const existingEvents = calendar.getEvents(new Date(startDate), getRelativeDate(365, 0, new Date(endDate)));
 
     for (const record of records) {
         const eventDescription = createEventDescription(record);
@@ -77,7 +86,7 @@ function createSavingsBondsIssuanceCalendar(api: MASApiService, startDate: strin
     const response = api.getSavingsBondIssuanceCalendar(startDate, endDate);
     const records = response.result.records;
 
-    const existingEvents = calendar.getEvents(new Date(startDate), new Date(endDate));
+    const existingEvents = calendar.getEvents(new Date(startDate), getRelativeDate(365, 0, new Date(endDate)));
 
     for (const record of records) {
         const eventDescription = createEventDescription(record);
