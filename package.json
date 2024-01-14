@@ -12,7 +12,7 @@
         "@types/google-apps-script": "^1.0.76",
         "@types/jest": "^29.5.5",
         "prettier": "^3.0.3",
-        "semantic-release": "^22.0.5",
+        "semantic-release": "^23.0.0",
         "ts-jest": "^29.1.1",
         "typescript": "^5.2.2"
     },
