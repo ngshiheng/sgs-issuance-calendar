@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>SGS Issuance Calendar</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.css">
+  </head>
+  <body>
+    <header>
+      <h1>SGS Issuance Calendar</h1>
+    </header>
+    <main>
+      <div class="description">
+        <p>This calendar displays Google Calendar events for <a href="https://www.mas.gov.sg/bonds-and-bills">Singapore Government Securities (SGS)</a> based on the <a href="https://www.mas.gov.sg/bonds-and-bills/auctions-and-issuance-calendar"> MAS Auctions and Issuance Calendar</a>. SGS includes SGS bonds, Singapore Savings Bonds (SSB), and Treasury bills (T-bills).</p>
+      </div>
+      <div class="calendar-container">
+        <iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=2&bgcolor=%23ffffff&ctz=Asia%2FSingapore&title=MAS%20SGS%20Issuance%20Calendars&src=NDcxNzZkMTIwZWZiM2M4OTM1OTIxZTgxNmM3YzUzMGY4N2ExNmM0NThjNGFiYTQyZjljZWRkNTE4NWZmNDgzM0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=NzFkNTAyMDBjMDA4OTNiZjAyOWIxYjVhZDdmMjM4OGZkODU0ODA3YzdlMWJmYTFiM2E0OWI5MTNkNjAzMDUwYUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=MWU3MDlkZjY5OTlhOWNjOGIxYTJiYTRlMDQ5ZDBmZDM0ZTBhNjQ5OTRhNTU5MzRmYTMzMzk3NTM0NWE5YjAzMEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=NDY1MjEwOGViZTU5YjAyZmE3MTdkNmM3NzU5MmNkZjcyNmJlNDgwM2NlM2M2ZmJhOTM5ZGY5ZTI3Nzg3YTY3NEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23AD1457&color=%23F4511E&color=%23E4C441&color=%230B8043" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+      </div>
+      <div class="content">
+        <p>It retrieves SGS data such as SGS, SSB, and T-bills from MAS API and generates events of key dates related to SGS issuances.</p>
+        <p><a href="https://jerrynsh.com/creating-a-mas-t-bill-calendar/">Read how this was made...</a></p>
+      </div>
+    </main>
+    <footer>
+      &copy; Made by <a href="https://jerrynsh.com/">Jerry Ng</a> 
+    </footer>
+  </body>
+</html>
