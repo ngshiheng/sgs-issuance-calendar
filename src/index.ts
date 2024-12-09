@@ -4,14 +4,19 @@ function main(): void {
     const api = new MASApiService();
 
     const today = new Date();
-    const startDate = `${today.getFullYear()}-01-01`;
-    const endDate = `${today.getFullYear()}-12-31`;
 
-    createMonthlyTrigger();
-    createSGSBondsIssuanceCalendar(api, startDate, endDate);
-    createTBillsIssuanceCalendar(api, startDate, endDate, 0.5);
-    createTBillsIssuanceCalendar(api, startDate, endDate, 1);
-    createSavingsBondsIssuanceCalendar(api, startDate, endDate);
+    const currentYear = today.getFullYear();
+
+    for (const year of [currentYear, currentYear + 1]) {
+        const startDate = `${year}-01-01`;
+        const endDate = `${year}-12-31`;
+
+        createMonthlyTrigger();
+        createSGSBondsIssuanceCalendar(api, startDate, endDate);
+        createTBillsIssuanceCalendar(api, startDate, endDate, 0.5);
+        createTBillsIssuanceCalendar(api, startDate, endDate, 1);
+        createSavingsBondsIssuanceCalendar(api, startDate, endDate);
+    }
 }
 
 export function getRelativeDate(daysOffset: number, hour: number, date = new Date()) {
@@ -29,6 +34,9 @@ function createSGSBondsIssuanceCalendar(api: MASApiService, startDate: string, e
 
     const response = api.getSGSBondsIssuanceCalendar(startDate, endDate);
     const records = response.result.records;
+    if (records.length === 0) {
+        Logger.log("No SGS Bonds issuance calendar available");
+    }
 
     const existingEvents = calendar.getEvents(new Date(startDate), getRelativeDate(365, 0, new Date(endDate)));
 
@@ -63,6 +71,10 @@ function createTBillsIssuanceCalendar(api: MASApiService, startDate: string, end
 
     const response = api.getTBillsIssuanceCalendar(startDate, endDate, auctionTenor);
     const records = response.result.records;
+    if (records.length === 0) {
+        Logger.log("No T-bill issuance calendar available");
+        return;
+    }
 
     const existingEvents = calendar.getEvents(new Date(startDate), getRelativeDate(365, 0, new Date(endDate)));
 
@@ -85,6 +97,10 @@ function createSavingsBondsIssuanceCalendar(api: MASApiService, startDate: strin
 
     const response = api.getSavingsBondIssuanceCalendar(startDate, endDate);
     const records = response.result.records;
+    if (records.length === 0) {
+        Logger.log("No Savings Bonds issuance calendar available");
+        return;
+    }
 
     const existingEvents = calendar.getEvents(new Date(startDate), getRelativeDate(365, 0, new Date(endDate)));
 
