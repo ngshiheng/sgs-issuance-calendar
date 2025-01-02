@@ -84,4 +84,18 @@ describe("MASApiService", () => {
             muteHttpExceptions: true,
         });
     });
+
+    it("should call the correct MAS FRN Issue Calendar endpoint", () => {
+        masApiService.getMASFRNIssuanceCalendar("2024-12-31", "2025-12-30");
+
+        const url =
+            "https://eservices.mas.gov.sg/statistics/api/v1/bondsandbills/m/mfrnissuecalendar?rows=200&filters=ann_date:[2024-12-31 TO 2025-12-30]&sort=ann_date asc";
+        const expectedUrl = encodeURI(url);
+
+        expect(mockURLFetchApp.fetch).toHaveBeenCalled();
+        expect(mockURLFetchApp.fetch).toHaveBeenCalledWith(expectedUrl, {
+            method: "get",
+            muteHttpExceptions: true,
+        });
+    });
 });
