@@ -24,6 +24,8 @@ You can subscribe to the following calendars for Singapore Bonds and T-bills to 
 | 6-Month T-Bill Calendar | [Add calendar](https://calendar.google.com/calendar/u/0?cid=NzFkNTAyMDBjMDA4OTNiZjAyOWIxYjVhZDdmMjM4OGZkODU0ODA3YzdlMWJmYTFiM2E0OWI5MTNkNjAzMDUwYUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t) |
 | 1-Year T-Bill Calendar  | [Add calendar](https://calendar.google.com/calendar/u/0?cid=NDcxNzZkMTIwZWZiM2M4OTM1OTIxZTgxNmM3YzUzMGY4N2ExNmM0NThjNGFiYTQyZjljZWRkNTE4NWZmNDgzM0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t) |
 | Savings Bond Calendar   | [Add calendar](https://calendar.google.com/calendar/u/0?cid=NDY1MjEwOGViZTU5YjAyZmE3MTdkNmM3NzU5MmNkZjcyNmJlNDgwM2NlM2M2ZmJhOTM5ZGY5ZTI3Nzg3YTY3NEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t) |
+| MAS Bills Calendar      | [Add calendar](https://calendar.google.com/calendar/u/0?cid=N2JkMGRhZjcyZjg4NTFiYTE2MjA2MDkxZGJiMjlhMDk5NDMyZWM2OTdlYzI0NGMyYjEzYjNkMTI1NWJlOTRhYUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t) |
+| MAS FRN Calendar        | [Add calendar](https://calendar.google.com/calendar/u/0?cid=NTViNjg5ZDgwZWE4OThiMjkwNzkyYjU2NmQzOGExYTVjMjAyNzNkYjNjYTI4YjNlY2Y0Njg0NDJmNGE0NjQ3YUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t) |
 
 _The calendar details are refreshed every month._
 
