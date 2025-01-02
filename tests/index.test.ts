@@ -42,6 +42,7 @@ const mockEvent = {
     getTitle: jest.fn(),
     setDescription: jest.fn(),
     setVisibility: jest.fn(),
+    setAllDayDate: jest.fn(),
     setGuestsCanModify: jest.fn(),
     setGuestsCanSeeGuests: jest.fn(),
     setGuestsCanInviteOthers: jest.fn(),
@@ -128,7 +129,8 @@ describe("updateOrCreateAllDayEvent", () => {
 
         expect(mockCalendar.createAllDayEvent).not.toHaveBeenCalled();
         expect(mockEvent.setDescription).toHaveBeenCalledWith(description);
-        expect(mockLogger.log).toHaveBeenCalledWith(`Event "${title}" already exist`);
+        expect(mockEvent.setAllDayDate).toHaveBeenCalledWith(date);
+        expect(mockLogger.log).toHaveBeenCalledWith(`Event "${title}" already exist - updating...`);
     });
 
     it("should create a new event if none exists", () => {

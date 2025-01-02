@@ -96,5 +96,34 @@ export class MASApiService {
         return this.fetch(endpoint, params);
     }
 
-    // TODO: Add get methods for MAS Bills and MAS FRN
+    getCMTBsIssuanceCalendar(): MASApiResponse {
+        throw new Error("Method not implemented.");
+    }
+
+    getMASBillsIssuanceCalendar(
+        startDate: string,
+        endDate: string,
+        rows: number = 200,
+        sort = "ann_date asc AND auction_tenor asc AND maturity_date asc",
+    ): MASApiResponse {
+        const endpoint = "/bondsandbills/m/mbillissuancecalendar";
+        const params = {
+            rows,
+            filters: `ann_date:[${startDate} TO ${endDate}]`,
+            sort,
+        };
+
+        return this.fetch(endpoint, params);
+    }
+
+    getMASFRNIssuanceCalendar(startDate: string, endDate: string, rows: number = 200, sort = "ann_date asc"): MASApiResponse {
+        const endpoint = "/bondsandbills/m/mfrnissuecalendar";
+        const params = {
+            rows,
+            filters: `ann_date:[${startDate} TO ${endDate}]`,
+            sort,
+        };
+
+        return this.fetch(endpoint, params);
+    }
 }

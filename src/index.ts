@@ -16,6 +16,8 @@ function main(): void {
         createTBillsIssuanceCalendar(api, startDate, endDate, 0.5);
         createTBillsIssuanceCalendar(api, startDate, endDate, 1);
         createSavingsBondsIssuanceCalendar(api, startDate, endDate);
+        createMASBillsIssuanceCalendar(api, startDate, endDate);
+        createMASFRNIssuanceCalendar(api, startDate, endDate);
     }
 }
 
@@ -117,6 +119,58 @@ function createSavingsBondsIssuanceCalendar(api: MASApiService, startDate: strin
     }
 }
 
+function createMASBillsIssuanceCalendar(api: MASApiService, startDate: string, endDate: string): void {
+    const calendarName = "MAS Bills";
+    const calendar = getOrCreateCalendar(calendarName);
+
+    const response = api.getMASBillsIssuanceCalendar(startDate, endDate);
+    const records = response.result.records;
+    if (records.length === 0) {
+        Logger.log("No MAS Bills issuance calendar available");
+        return;
+    }
+
+    const existingEvents = calendar.getEvents(new Date(startDate), getRelativeDate(365, 0, new Date(endDate)));
+
+    for (const record of records) {
+        const eventDescription = createEventDescription(record, "week");
+
+        const announcementDate = new Date(record.ann_date);
+        const announcementTitle = `MAS Bills Announcement - ${record.issue_code}`;
+        updateOrCreateAllDayEvent(announcementTitle, eventDescription, announcementDate, calendar, existingEvents);
+
+        const auctionDate = new Date(record.auction_date);
+        const auctionTitle = `MAS Bills Auction - ${record.issue_code}`;
+        updateOrCreateAllDayEvent(auctionTitle, eventDescription, auctionDate, calendar, existingEvents);
+    }
+}
+
+function createMASFRNIssuanceCalendar(api: MASApiService, startDate: string, endDate: string): void {
+    const calendarName = "MAS FRN";
+    const calendar = getOrCreateCalendar(calendarName);
+
+    const response = api.getMASFRNIssuanceCalendar(startDate, endDate);
+    const records = response.result.records;
+    if (records.length === 0) {
+        Logger.log("No MAS FRN issuance calendar available");
+        return;
+    }
+
+    const existingEvents = calendar.getEvents(new Date(startDate), getRelativeDate(365, 0, new Date(endDate)));
+
+    for (const record of records) {
+        const eventDescription = createEventDescription(record, "month");
+
+        const announcementDate = new Date(record.ann_date);
+        const announcementTitle = `MAS FRN Announcement - ${record.issue_code}`;
+        updateOrCreateAllDayEvent(announcementTitle, eventDescription, announcementDate, calendar, existingEvents);
+
+        const auctionDate = new Date(record.auction_date);
+        const auctionTitle = `MAS FRN Auction - ${record.issue_code}`;
+        updateOrCreateAllDayEvent(auctionTitle, eventDescription, auctionDate, calendar, existingEvents);
+    }
+}
+
 export function createMonthlyTrigger(): GoogleAppsScript.Script.Trigger {
     const triggers = ScriptApp.getProjectTriggers();
     for (const trigger of triggers) {
@@ -162,8 +216,9 @@ export function updateOrCreateAllDayEvent(
     const event = existingEvents.find((event) => event.getTitle() === title);
 
     if (!!event) {
-        Logger.log(`Event "${title}" already exist`);
+        Logger.log(`Event "${title}" already exist - updating...`);
         event.setDescription(description);
+        event.setAllDayDate(date);
         return event;
     }
 
@@ -176,7 +231,7 @@ export function updateOrCreateAllDayEvent(
     return newEvent;
 }
 
-export function createEventDescription(record: BondRecord): string {
+export function createEventDescription(record: BondRecord, tenorUnit: string = "year"): string {
     const fields = [
         { key: "Allotment Date", value: record.tender_date },
         { key: "Announcement Date", value: record.ann_date },
@@ -187,7 +242,7 @@ export function createEventDescription(record: BondRecord): string {
         { key: "Issue Date", value: record.issue_date },
         { key: "Maturity Date", value: record.maturity_date },
         { key: "SGS Type", value: record.sgs_type },
-        { key: "Tenor", value: record.auction_tenor ? `${record.auction_tenor} year` : null },
+        { key: "Tenor", value: record.auction_tenor ? `${record.auction_tenor} ${tenorUnit}` : null },
     ];
 
     const masCalendarLink = "https://www.mas.gov.sg/bonds-and-bills/auctions-and-issuance-calendar";
