@@ -85,6 +85,25 @@ describe("MASApiService", () => {
         });
     });
 
+    it("should call the correct MAS Bills Issuance Calendar endpoint", () => {
+        masApiService.getMASBillsIssuanceCalendar(
+            "2024-12-31",
+            "2025-12-30",
+            200,
+            "ann_date asc AND auction_tenor asc AND maturity_date asc",
+        );
+
+        const url =
+            "https://eservices.mas.gov.sg/statistics/api/v1/bondsandbills/m/mbillissuancecalendar?rows=200&filters=ann_date:[2024-12-31 TO 2025-12-30]&sort=ann_date asc AND auction_tenor asc AND maturity_date asc";
+        const expectedUrl = encodeURI(url);
+
+        expect(mockURLFetchApp.fetch).toHaveBeenCalled();
+        expect(mockURLFetchApp.fetch).toHaveBeenCalledWith(expectedUrl, {
+            method: "get",
+            muteHttpExceptions: true,
+        });
+    });
+
     it("should call the correct MAS FRN Issue Calendar endpoint", () => {
         masApiService.getMASFRNIssuanceCalendar("2024-12-31", "2025-12-30");
 

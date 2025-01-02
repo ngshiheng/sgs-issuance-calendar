@@ -96,6 +96,17 @@ export class MASApiService {
         return this.fetch(endpoint, params);
     }
 
+    getMASBillsIssuanceCalendar(startDate: string, endDate: string, rows: number = 200, sort = "ann_date asc"): MASApiResponse {
+        const endpoint = "/bondsandbills/m/mbillissuancecalendar";
+        const params = {
+            rows,
+            filters: `ann_date:[${startDate} TO ${endDate}]`,
+            sort,
+        };
+
+        return this.fetch(endpoint, params);
+    }
+
     getMASFRNIssuanceCalendar(startDate: string, endDate: string, rows: number = 200, sort = "ann_date asc"): MASApiResponse {
         const endpoint = "/bondsandbills/m/mfrnissuecalendar";
         const params = {
