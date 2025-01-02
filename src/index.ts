@@ -216,8 +216,9 @@ export function updateOrCreateAllDayEvent(
     const event = existingEvents.find((event) => event.getTitle() === title);
 
     if (!!event) {
-        Logger.log(`Event "${title}" already exist`);
+        Logger.log(`Event "${title}" already exist - updating...`);
         event.setDescription(description);
+        event.setAllDayDate(date);
         return event;
     }
 
