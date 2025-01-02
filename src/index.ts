@@ -16,6 +16,7 @@ function main(): void {
         createTBillsIssuanceCalendar(api, startDate, endDate, 0.5);
         createTBillsIssuanceCalendar(api, startDate, endDate, 1);
         createSavingsBondsIssuanceCalendar(api, startDate, endDate);
+        createMASBillsIssuanceCalendar(api, startDate, endDate);
         createMASFRNIssuanceCalendar(api, startDate, endDate);
     }
 }
@@ -115,6 +116,32 @@ function createSavingsBondsIssuanceCalendar(api: MASApiService, startDate: strin
         const closingDate = new Date(record.last_day_to_apply);
         const closingTitle = `SSB Closing - ${record.issue_code}`;
         updateOrCreateAllDayEvent(closingTitle, eventDescription, closingDate, calendar, existingEvents);
+    }
+}
+
+function createMASBillsIssuanceCalendar(api: MASApiService, startDate: string, endDate: string): void {
+    const calendarName = "MAS Bills";
+    const calendar = getOrCreateCalendar(calendarName);
+
+    const response = api.getMASBillsIssuanceCalendar(startDate, endDate);
+    const records = response.result.records;
+    if (records.length === 0) {
+        Logger.log("No MAS Bills issuance calendar available");
+        return;
+    }
+
+    const existingEvents = calendar.getEvents(new Date(startDate), getRelativeDate(365, 0, new Date(endDate)));
+
+    for (const record of records) {
+        const eventDescription = createEventDescription(record, "week");
+
+        const announcementDate = new Date(record.ann_date);
+        const announcementTitle = `MAS Bills Announcement - ${record.issue_code}`;
+        updateOrCreateAllDayEvent(announcementTitle, eventDescription, announcementDate, calendar, existingEvents);
+
+        const auctionDate = new Date(record.auction_date);
+        const auctionTitle = `MAS Bills Auction - ${record.issue_code}`;
+        updateOrCreateAllDayEvent(auctionTitle, eventDescription, auctionDate, calendar, existingEvents);
     }
 }
 

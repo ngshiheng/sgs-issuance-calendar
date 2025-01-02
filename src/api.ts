@@ -96,7 +96,16 @@ export class MASApiService {
         return this.fetch(endpoint, params);
     }
 
-    getMASBillsIssuanceCalendar(startDate: string, endDate: string, rows: number = 200, sort = "ann_date asc"): MASApiResponse {
+    getCMTBsIssuanceCalendar(): MASApiResponse {
+        throw new Error("Method not implemented.");
+    }
+
+    getMASBillsIssuanceCalendar(
+        startDate: string,
+        endDate: string,
+        rows: number = 200,
+        sort = "ann_date asc AND auction_tenor asc AND maturity_date asc",
+    ): MASApiResponse {
         const endpoint = "/bondsandbills/m/mbillissuancecalendar";
         const params = {
             rows,
