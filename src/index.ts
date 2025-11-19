@@ -1,22 +1,82 @@
 import { BondRecord, MASApiService } from "./api";
 
-function main(): void {
+function createJobs(): void {
+    createSGSBondsTrigger();
+    createTBills6MonthTrigger();
+    createTBills1YearTrigger();
+    createSavingsBondsTrigger();
+    createMASBillsTrigger();
+    createMASFRNTrigger();
+}
+
+export function runSGSBondsJob(): void {
     const api = new MASApiService();
-
     const today = new Date();
-
     const currentYear = today.getFullYear();
 
     for (const year of [currentYear, currentYear + 1]) {
         const startDate = `${year}-01-01`;
         const endDate = `${year}-12-31`;
-
-        createMonthlyTrigger();
         createSGSBondsIssuanceCalendar(api, startDate, endDate);
+    }
+}
+
+export function runTBills6MonthJob(): void {
+    const api = new MASApiService();
+    const today = new Date();
+    const currentYear = today.getFullYear();
+
+    for (const year of [currentYear, currentYear + 1]) {
+        const startDate = `${year}-01-01`;
+        const endDate = `${year}-12-31`;
         createTBillsIssuanceCalendar(api, startDate, endDate, 0.5);
+    }
+}
+
+export function runTBills1YearJob(): void {
+    const api = new MASApiService();
+    const today = new Date();
+    const currentYear = today.getFullYear();
+
+    for (const year of [currentYear, currentYear + 1]) {
+        const startDate = `${year}-01-01`;
+        const endDate = `${year}-12-31`;
         createTBillsIssuanceCalendar(api, startDate, endDate, 1);
+    }
+}
+
+export function runSavingsBondsJob(): void {
+    const api = new MASApiService();
+    const today = new Date();
+    const currentYear = today.getFullYear();
+
+    for (const year of [currentYear, currentYear + 1]) {
+        const startDate = `${year}-01-01`;
+        const endDate = `${year}-12-31`;
         createSavingsBondsIssuanceCalendar(api, startDate, endDate);
+    }
+}
+
+export function runMASBillsJob(): void {
+    const api = new MASApiService();
+    const today = new Date();
+    const currentYear = today.getFullYear();
+
+    for (const year of [currentYear, currentYear + 1]) {
+        const startDate = `${year}-01-01`;
+        const endDate = `${year}-12-31`;
         createMASBillsIssuanceCalendar(api, startDate, endDate);
+    }
+}
+
+export function runMASFRNJob(): void {
+    const api = new MASApiService();
+    const today = new Date();
+    const currentYear = today.getFullYear();
+
+    for (const year of [currentYear, currentYear + 1]) {
+        const startDate = `${year}-01-01`;
+        const endDate = `${year}-12-31`;
         createMASFRNIssuanceCalendar(api, startDate, endDate);
     }
 }
@@ -171,18 +231,60 @@ function createMASFRNIssuanceCalendar(api: MASApiService, startDate: string, end
     }
 }
 
-export function createMonthlyTrigger(): GoogleAppsScript.Script.Trigger {
+// Individual trigger creation functions
+export function createSGSBondsTrigger(): GoogleAppsScript.Script.Trigger {
+    return createOrUpdateTrigger("runSGSBondsJob", "SGS Bonds");
+}
+
+export function createTBills6MonthTrigger(): GoogleAppsScript.Script.Trigger {
+    return createOrUpdateTrigger("runTBills6MonthJob", "6-Month T-Bills");
+}
+
+export function createTBills1YearTrigger(): GoogleAppsScript.Script.Trigger {
+    return createOrUpdateTrigger("runTBills1YearJob", "1-Year T-Bills");
+}
+
+export function createSavingsBondsTrigger(): GoogleAppsScript.Script.Trigger {
+    return createOrUpdateTrigger("runSavingsBondsJob", "Savings Bonds");
+}
+
+export function createMASBillsTrigger(): GoogleAppsScript.Script.Trigger {
+    return createOrUpdateTrigger("runMASBillsJob", "MAS Bills");
+}
+
+export function createMASFRNTrigger(): GoogleAppsScript.Script.Trigger {
+    return createOrUpdateTrigger("runMASFRNJob", "MAS FRN");
+}
+
+// Generic function to create or update triggers
+function createOrUpdateTrigger(handlerName: string, jobName: string): GoogleAppsScript.Script.Trigger {
     const triggers = ScriptApp.getProjectTriggers();
+
     for (const trigger of triggers) {
-        const triggerExist = trigger.getHandlerFunction() === main.name;
-        if (triggerExist) {
-            Logger.log(`Trigger "${main.name}" already exist`);
+        if (trigger.getHandlerFunction() === handlerName) {
+            Logger.log(`Trigger for "${jobName}" already exists`);
             return trigger;
         }
     }
 
-    Logger.log(`Creating new monthly trigger`);
-    return ScriptApp.newTrigger(main.name).timeBased().onMonthDay(1).atHour(1).create();
+    Logger.log(`Creating new monthly trigger for "${jobName}"`);
+    return ScriptApp.newTrigger(handlerName).timeBased().onMonthDay(1).atHour(1).create();
+}
+
+export function deleteAllTriggers(): void {
+    const triggers = ScriptApp.getProjectTriggers();
+    for (const trigger of triggers) {
+        Logger.log(`Deleting trigger: ${trigger.getHandlerFunction()}`);
+        ScriptApp.deleteTrigger(trigger);
+    }
+}
+
+export function listAllTriggers(): void {
+    const triggers = ScriptApp.getProjectTriggers();
+    Logger.log(`Total triggers: ${triggers.length}`);
+    for (const trigger of triggers) {
+        Logger.log(`- Handler: ${trigger.getHandlerFunction()}, Event: ${trigger.getEventType()}`);
+    }
 }
 
 export function getOrCreateCalendar(calendarName: string): GoogleAppsScript.Calendar.Calendar {
