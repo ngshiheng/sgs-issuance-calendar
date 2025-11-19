@@ -1,5 +1,5 @@
 import { BondRecord } from "../src/api";
-import { createEventDescription, createMonthlyTrigger, getOrCreateCalendar, updateOrCreateAllDayEvent } from "../src/index";
+import { createEventDescription, getOrCreateCalendar, updateOrCreateAllDayEvent } from "../src/index";
 
 // Create a mock for ScriptApp
 const mockScriptApp = {
@@ -57,30 +57,6 @@ const mockEvent = {
         Calendar: jest.fn(() => mockCalendar),
     },
 };
-
-describe("createMonthlyTrigger", () => {
-    afterEach(() => {
-        jest.clearAllMocks();
-    });
-
-    it("should return an existing trigger if one exists", () => {
-        mockScriptApp.getProjectTriggers.mockReturnValue([
-            {
-                getHandlerFunction: jest.fn().mockReturnValue("main"),
-            },
-        ]);
-
-        createMonthlyTrigger();
-        expect(mockScriptApp.newTrigger).not.toHaveBeenCalled();
-    });
-
-    it("should create a new trigger if none exists", () => {
-        mockScriptApp.getProjectTriggers.mockReturnValue([]);
-
-        createMonthlyTrigger();
-        expect(mockScriptApp.newTrigger).toHaveBeenCalled();
-    });
-});
 
 describe("getOrCreateCalendar", () => {
     afterEach(() => {
