@@ -9,7 +9,7 @@
         "prettier:fix": "prettier \"./**/*.{js,ts,yml,yaml}\" --write --ignore-path .eslintignore"
     },
     "devDependencies": {
-        "@types/google-apps-script": "^1.0.76",
+        "@types/google-apps-script": "^2.0.0",
         "@types/jest": "^30.0.0",
         "prettier": "^3.0.3",
         "semantic-release": "^25.0.0",
